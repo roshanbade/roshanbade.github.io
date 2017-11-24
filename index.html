@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>bootstrap</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<style type="text/css">
+	.box {
+		border: 5px solid white;
+		background: #4A777A;
+		height: 100px;
+		text-align: center;
+		color: white;
+		font-size: 50px;
+
+	}
+
+	.hide {
+		display: none;
+	}
+		/*.box p{
+			visibility: hidden;
+			}*/
+			h1 {
+				color: #859C27;
+			}
+			body {
+				background: #CDC5BF;
+			}
+			.active{
+				background:#FA9A50;
+			}
+			.matched{
+				background:#58D68D;
+			}
+			.nomatch {
+				background: red;
+			}
+			#match {
+				border: 2px solid #FFE4E1;
+
+			}
+			.green {
+				background: green;
+			}
+
+		/*.visiblity{
+			visibility: visible;
+			}*/
+		</style>
+	</head>
+	<body>
+
+		<h1>Find a pair to win!</h1>
+		<hr>
+
+		<div class="container">
+			<div class="row">
+				<button type="button" class="btn btn-primary new">New Game</button>
+			</div>
+		</div>
+		<div class="container">
+			
+			<div class = "row">
+				<div class = "col 01 box " position="0">
+
+				</div>
+				<div class = "col 02 box" position="1">
+
+				</div>
+				<div class = "col 03 box" position="2">
+
+				</div>
+				<div class = "col 04 box" position="3">
+
+				</div>
+			</div>
+
+			<div class = "row">
+				<div class = "col 05 box" position="4">
+
+				</div>
+				<div class = "col 06 box" position="5">
+
+				</div>
+				<div class = "col 07 box" position="6">
+
+				</div>
+				<div class = "col 08 box" position="7">
+
+				</div>
+			</div>
+
+			<div class = "row">
+				<div class = "col 9 box " position="8">
+
+				</div>
+				<div class = "col 10 box" position="9">
+
+				</div>
+				<div class = "col 11 box" position="10">
+
+				</div>
+				<div class = "col 12 box" position="11">
+
+				</div>
+			</div>
+
+			<div class = "row">
+				<div class = "col 13 box" position="12"> 
+
+				</div>
+				<div class = "col 14 box" position="13">
+
+				</div>
+				<div class = "col 15 box" position="14">
+
+				</div>
+				<div class = "col 16 box" position="15">
+
+				</div>
+			</div>
+			<div id="match">
+
+			</div>
+
+		</div>
+	</div>
+
+	<script src="jquery-3.2.1.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var numbers = [1,2,3,4,5,6,7,8,2,1,3,6,4,8,7,5];
+			var previous_object = 20;
+			var once = true;
+			var matchedNums=[];
+			var steps = 0;
+			alert('Click on New Game to start the game!')
+			$('.new').click(function(){
+				
+				$('.box').removeClass('matched');
+				$('.box').removeClass('active');
+				matchedNums = [];
+
+				var j, x, i;
+
+				for (i = numbers.length - 1; i > 0; i--) {
+					j = Math.floor(Math.random() * (i + 1));
+					x = numbers[i];
+					numbers[i] = numbers[j];
+					numbers[j] = x;
+				}
+				$('.box').text('');
+				// var i = 0;
+				// $(".box").each(function(){
+				// 	$(this).text(numbers[i]);
+				// 	i++;
+				// });
+
+				//console.log(numbers);
+				return;
+			});
+
+			
+			if(once){
+				previous_object = $(this);
+				once=false
+			}
+			$('.box').click(function(){
+				steps++;
+				var pos = $(this).attr('position');
+				if(matchedNums.includes(pos)) {
+					return;
+				}
+				$(this).text(numbers[pos]).addClass('active');
+//				$(this).addClass('active');
+				if (previous_object.text() != numbers[pos]) {
+					if(previous_object.hasClass('matched')){
+						previous_object = $(this);
+						return;
+					}
+					previous_object.removeClass('active');
+					previous_object.text('');
+
+				} else {
+					$(this).addClass('matched');
+					previous_object.addClass('matched');
+					matchedNums.push(pos);
+				}
+
+				previous_object = $(this);
+				//console.log(matchedNums);
+				//console.log(previous_object);	
+				if(matchedNums.length == 8){
+					alert('All Matches found in ' + steps + ' steps.')
+				} else{
+					console.log("try again")
+				}
+
+			});
+
+			
+			
+		});
+	</script>	
+
+	<!-- <script type="text/javascript">
+		$(document).ready(function(){
+			var once = true;
+			var clickedAns = [];
+			var matchedNums = [];
+			//var previousClass = "";
+			$('.box').click(function(){
+
+				//previousClass = $(this).attr('class');
+				//if(!$(this).attr('class').includes(previousClass)){
+					// return;
+				// }
+				if($(this).attr('class').includes('active')){
+					return;
+				}
+				
+				count = 0;
+				var number = Math.floor(Math.random() * 8) + 1;
+				for (var i = 0; i < matchedNums.length; i++) {
+					if(number == matchedNums[i]){
+							return;
+					}
+
+				}
+
+				if(once) {
+					$(this).addClass('active');
+					$(this).append(number);
+					clickedAns.push(number);
+					//matchedNums.push(number);
+					once = false;
+
+				
+
+					return;
+				}
+				for (var i = 0; i < clickedAns.length; i++) {
+
+					if(number == clickedAns[i]) {
+						
+						$(this).text(number);
+						var text = "Match for " + number + " found!";
+						$('#match').text(text);
+						$(this).addClass('active');
+						$(this).removeClass('nomatch');
+						clickedAns.push(number);
+						matchedNums.push(number);
+						once = true;
+						return;
+					} else {
+						
+					}
+				}
+				$('#match').text("Click again!");
+						$(this).text(number); 
+						$(this).addClass('nomatch');
+				console.log(clickedAns);
+			});
+		});
+	</script> -->
+
+	
+</body>
+</html>
