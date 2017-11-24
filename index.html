@@ -45,7 +45,9 @@
 			.green {
 				background: green;
 			}
+			.dummy{
 
+			}
 		/*.visiblity{
 			visibility: visible;
 			}*/
@@ -143,7 +145,8 @@
 			var steps = 0;
 			alert('Click on New Game to start the game!')
 			$('.new').click(function(){
-				
+				previous_object = null;
+				//	console.log('previous_object: ' + previous_object.attr('class'));
 				$('.box').removeClass('matched');
 				$('.box').removeClass('active');
 				matchedNums = [];
@@ -174,31 +177,37 @@
 			}
 			$('.box').click(function(){
 				steps++;
-				if($(this).attr('class') == previous_object.attr('class')){
-					return;
-				}
 				console.log($(this).attr('class'));
-				console.log(previous_object.attr('class'));
+				// console.log(previous_object.attr('class'));
+				if(previous_object){
+					if($(this).attr('class') == previous_object.attr('class')){
+						return;
+					}
+				}
+				
+				
 				var pos = $(this).attr('position');
 				if(matchedNums.includes(pos)) {
 					return;
 				}
 				$(this).text(numbers[pos]).addClass('active');
 //				$(this).addClass('active');
-				if (previous_object.text() != numbers[pos]) {
-					if(previous_object.hasClass('matched')){
-						previous_object = $(this);
-						return;
+				if(previous_object){
+					
+					if (previous_object.text() != numbers[pos]) {
+						if(previous_object.hasClass('matched')){
+							previous_object = $(this);
+							return;
+						}
+						previous_object.removeClass('active');
+						previous_object.text('');
+
+					} else {
+						$(this).addClass('matched');
+						previous_object.addClass('matched');
+						matchedNums.push(pos);
 					}
-					previous_object.removeClass('active');
-					previous_object.text('');
-
-				} else {
-					$(this).addClass('matched');
-					previous_object.addClass('matched');
-					matchedNums.push(pos);
 				}
-
 				previous_object = $(this);
 				//console.log(matchedNums);
 				//console.log(previous_object);	
@@ -207,6 +216,7 @@
 				} else{
 					console.log("try again")
 				}
+				return;
 
 			});
 
