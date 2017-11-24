@@ -145,6 +145,7 @@
 			var steps = 0;
 			alert('Click on New Game to start the game!')
 			$('.new').click(function(){
+				steps =0;
 				previous_object = null;
 				//	console.log('previous_object: ' + previous_object.attr('class'));
 				$('.box').removeClass('matched');
@@ -193,7 +194,7 @@
 				$(this).text(numbers[pos]).addClass('active');
 //				$(this).addClass('active');
 				if(previous_object){
-					
+
 					if (previous_object.text() != numbers[pos]) {
 						if(previous_object.hasClass('matched')){
 							previous_object = $(this);
